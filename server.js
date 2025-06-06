@@ -1,20 +1,21 @@
-const vision = require("@google-cloud/vision");
-const cors = require("cors");
-
 require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const app = express();
 
-const visionClient = new vision.ImageAnnotatorClient();
+app.use(cors());
+app.use(express.json());
 
-const testingFile = "./images/testImage.jpg";
+const PORT = process.env.PORT || 8080;
 
-const doTheTest = async () => {
-  const [result] = await visionClient.textDetection(testingFile);
+const textDetectionRoutes = require("./routes/textDetectRoutes");
 
-  const detections = result.textAnnotations;
+app.use("/detection", textDetectionRoutes);
 
-  detections.forEach((text) => {
-    console.log(text.description);
-  });
-};
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to Text Detection Tests!" });
+});
 
-doTheTest();
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
