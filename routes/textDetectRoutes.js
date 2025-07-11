@@ -134,8 +134,8 @@ const doTheTest = async () => {
 // Endpoint just for manual text detection testing
 router.get("/test", async (req, res) => {
   try {
-    const filePath = await getCorrectlyOrientedImage(req.file);
-    const detectionResult = await fetchDetections(filePath);
+    // const filePath = await getCorrectlyOrientedImage(req.file);
+    const detectionResult = await fetchDetections(testingFile);
 
     res.status(200).json({ message: "success", results: detectionResult });
   } catch (e) {
